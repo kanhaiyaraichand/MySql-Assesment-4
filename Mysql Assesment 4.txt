@@ -1,0 +1,81 @@
+MySQl Aseesment 4.
+Q.
+Subqueries
+Exercise 1
+Problem Statement:
+Write a query to display trainer IDs for all associates whose names contain the letter 'i'. Note: Use sub-query to achieve this.
+Problem Statement:
+Write a query to display trainer IDs for all associates whose names do not contain the letter 'i'.
+Note: Use sub-query to achieve this.
+Problem Statement:
+Write a query to display trainer ID and trainer rating for the trainers who handled J2EE module. Hint: Use trainer_feedback and associate status tables.
+Note: Use sub-query to achieve this.
+Exercise 2
+Problem Statement:
+Write a query to pick up the maximum marks secured in the subject “EI05IP” and display the student name and registration number of the student who has secured it.
+Problem Statement:
+Write a query to display the student name and registration number of the student who has secured second highest marks in the subject El05lP subject.
+
+
+
+
+
+
+Joins
+Exercise 1
+Problem Statement:
+Write a query to display trainer_id and batch_id details in such a way that we get all possible combinations of trainer IDs and batch IDs.
+Hint: Use Trainer_Info and Batch_Info tables.
+
+Problem Statement:
+Write a query to display the records from all columns of tables associate_status and batch_info, wherever the batch_id in the two tables matches.
+Problem Statement:
+Write a query to display the associate IDs of the associates tagged to trainers and all the trainer IDs irrespective of whether there are any associates tagged to them or not. Hint: Use associate_status and trainer_info tables.
+Note: Use Left Outer Join
+
+ 
+Solution:-
+
+Subqueries
+SELECT Trainer_Id
+ FROM Associate_Status
+ WHERE Associate_Id IN (SELECT Associate_Id
+ FROM Associate_Info
+ WHERE Associate_Name like ‘%I%’) ;
+SELECT Trainer_Id
+ FROM Associate_Status
+ WHERE Associate_Id IN (SELECT Associate_Id
+ FROM Associate_Info
+ WHERE Associate_Name not like ‘%I%’) ;
+SELECT Trainer_Id , Trainer_Rating
+ FROM Trainer_Feedback
+ WHERE Trainer_Id IN (SELECT Trainer_Id
+ FROM Associate_Status
+ WHERE Module = ‘J2EE’) ;
+SELECT Name , Registration_Number
+ FROM Table
+ WHERE Registration_number in (SELECT max(marks)
+ FROM Table
+ WHERE subject = ‘EI05IP’) ;
+SELECT Name , Registration_Number
+ FROM Table
+ WHERE Registration_number in (select Registration_number
+from Table
+Where sub=‘E1051P’
+order by marks desc limit 1,1;
+) ;
+
+Joins
+
+SELECT a.Trainer_Id, b.Batch_Id
+FROM Trainer_Info a
+CROSS JOIN Batch_Info b
+SELECT Associate_Status.*., Batch_Info.*
+FROM Associate_Status
+FULL OUTER JOIN Batch_info 
+
+ON Associate_Status.Batch_Id=batch_Info.Batch_Id
+SELECT Trainer_Info.Trainer_Id, Associate_Status.Associate_ID
+FROM Trainer_Info
+LEFT JOIN Associate_Status
+ON Trainer_Info.Trainer_Id=Associate_Status.Trainer_ID
